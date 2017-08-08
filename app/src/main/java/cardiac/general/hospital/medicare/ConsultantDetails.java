@@ -32,6 +32,7 @@ public class ConsultantDetails extends AppCompatActivity {
     ListView consultantList;
     ArrayList<String> DocNameArray = new ArrayList<String>();
     ArrayList<String> DocDeptArray = new ArrayList<String>();
+    ArrayList<String> DocSpecialityArray = new ArrayList<String>();
     ArrayList<String> DocDays1Array = new ArrayList<String>();
     ArrayList<String> DocTiming1Array = new ArrayList<String>();
     ArrayList<String> DocDays2Array = new ArrayList<String>();
@@ -66,7 +67,12 @@ public class ConsultantDetails extends AppCompatActivity {
             //Toast.makeText(SpecialityDetails.this, "" + Sr_Name, Toast.LENGTH_LONG).show();
             String[] docNames = Doc_Name();
             String[] docDepts = Doc_Dept();
-            ConsultantDetailsAdapter simpleAdapter = new ConsultantDetailsAdapter(getBaseContext(), docDepts, docNames, docNames, docNames,docNames,docNames,docNames);
+            String[] docSpeciality = Doc_Speciality();
+            String[] docDays1 = Doc_Days1();
+            String[] doctime1 = Doc_Time1();
+            String[] docDays2 = Doc_Days2();
+            String[] doctime2 = Doc_Time2();
+            ConsultantDetailsAdapter simpleAdapter = new ConsultantDetailsAdapter(getBaseContext(), docNames, docDepts, docSpeciality, docDays1,doctime1,docDays2,doctime2);
             consultantList.setAdapter(simpleAdapter);
         }
     }
@@ -102,6 +108,11 @@ public class ConsultantDetails extends AppCompatActivity {
                 Sr_Name = i + 1 + ": " + DocName;
                 DocNameArray.add(Sr_Name);
                 DocDeptArray.add(DocDept);
+                DocSpecialityArray.add(DocSpeciality);
+                DocDays1Array.add(DocDays1);
+                DocTiming1Array.add(DocTiming1);
+                DocDays2Array.add(DocDays2);
+                DocTiming2Array.add(DocTiming2);
             }
         }catch (Exception ex) {
             Log.e(TAG, "Error: " + ex.getMessage());
@@ -116,5 +127,30 @@ public class ConsultantDetails extends AppCompatActivity {
         String[] Doc_dept = new String[DocDeptArray.size()];
         Doc_dept = DocDeptArray.toArray(Doc_dept);
         return Doc_dept;
+    }
+    public String[] Doc_Speciality() {
+        String[] Doc_Speciality = new String[DocSpecialityArray.size()];
+        Doc_Speciality = DocSpecialityArray.toArray(Doc_Speciality);
+        return Doc_Speciality;
+    }
+    public String[] Doc_Days1() {
+        String[] Doc_Days1 = new String[DocDays1Array.size()];
+        Doc_Days1 = DocDays1Array.toArray(Doc_Days1);
+        return Doc_Days1;
+    }
+    public String[] Doc_Time1() {
+        String[] Doc_Time1 = new String[DocTiming1Array.size()];
+        Doc_Time1 = DocTiming1Array.toArray(Doc_Time1);
+        return Doc_Time1;
+    }
+    public String[] Doc_Days2() {
+        String[] Doc_Days2 = new String[DocDays2Array.size()];
+        Doc_Days2 = DocDays2Array.toArray(Doc_Days2);
+        return Doc_Days2;
+    }
+    public String[] Doc_Time2() {
+        String[] Doc_Time2 = new String[DocTiming2Array.size()];
+        Doc_Time2 = DocTiming2Array.toArray(Doc_Time2);
+        return Doc_Time2;
     }
 }

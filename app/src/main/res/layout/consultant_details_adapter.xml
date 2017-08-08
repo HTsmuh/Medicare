@@ -20,38 +20,35 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/docnameText"
-        android:layout_toRightOf="@+id/docdptText"
+        android:layout_below="@+id/docdptText"
         android:text="Dept"
         android:layout_marginLeft="20dp"
         android:id="@+id/docspecText"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/docdptText"
+        android:layout_below="@+id/docspecText"
         android:text="Dept"
         android:layout_marginLeft="20dp"
         android:id="@+id/docday1Text"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/docdptText"
-        android:layout_toRightOf="@+id/docday1Text"
+        android:layout_below="@+id/docday1Text"
         android:text="Dept"
         android:layout_marginLeft="20dp"
         android:id="@+id/doctime1Text"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/docday1Text"
+        android:layout_below="@+id/doctime1Text"
         android:text="Dept"
         android:layout_marginLeft="20dp"
         android:id="@+id/docday2Text"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/docday1Text"
-        android:layout_toRightOf="@+id/docday2Text"
+        android:layout_below="@+id/docday2Text"
         android:text="Dept"
         android:layout_marginLeft="20dp"
         android:id="@+id/doctime2Text"/>
