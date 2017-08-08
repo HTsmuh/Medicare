@@ -5,10 +5,14 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
@@ -43,14 +47,14 @@ public class ConsultantDetails extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consultant_details);
 
-        AsyncCallWS task = new AsyncCallWS();
+        AsyncCallConsultantDetails task = new AsyncCallConsultantDetails();
         task.execute();
         consultantList = (ListView) findViewById(R.id.listView13);
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         id = bundle.getString("ID");
     }
-    private class AsyncCallWS extends AsyncTask<Void, Void, Void> {
+    private class AsyncCallConsultantDetails extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
             Log.i(TAG, "onPreExecute");
@@ -74,6 +78,7 @@ public class ConsultantDetails extends AppCompatActivity {
             String[] doctime2 = Doc_Time2();
             ConsultantDetailsAdapter simpleAdapter = new ConsultantDetailsAdapter(getBaseContext(), docNames, docDepts, docSpeciality, docDays1,doctime1,docDays2,doctime2);
             consultantList.setAdapter(simpleAdapter);
+            ListViewClick();
         }
     }
     public void GetJSON() {
@@ -117,6 +122,23 @@ public class ConsultantDetails extends AppCompatActivity {
         }catch (Exception ex) {
             Log.e(TAG, "Error: " + ex.getMessage());
         }
+    }
+    public void ListViewClick() {
+        consultantList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                try {
+                    JSONObject jsonChildNode = jsonMainNode.getJSONObject(position);
+                    DocId = jsonChildNode.optString("DoctorId");
+                    //Toast.makeText(ConsultantDetails.this, "ID : "+DocId, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(ConsultantDetails.this, DoctorDetail.class);
+                    intent.putExtra("DocId", DocId);
+                    startActivity(intent);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
     public String[] Doc_Name() {
         String[] Doc_Name = new String[DocNameArray.size()];

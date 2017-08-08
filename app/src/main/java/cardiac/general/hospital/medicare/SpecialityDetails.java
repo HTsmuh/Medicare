@@ -67,12 +67,12 @@ public class SpecialityDetails extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         id = bundle.getString("ID");
-        AsyncCallWS task = new AsyncCallWS();
+        AsyncCallSpecialityDetails task = new AsyncCallSpecialityDetails();
         ImageLoadTask task2 = new ImageLoadTask(url, cover);
         task.execute();
         task2.execute();
     }
-    private class AsyncCallWS extends AsyncTask<Void, Void, Void> {
+    private class AsyncCallSpecialityDetails extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() { Log.i(TAG, "onPreExecute"); }
 
