@@ -1,5 +1,6 @@
 package cardiac.general.hospital.medicare;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -41,12 +42,15 @@ public class ConsultantDetails extends AppCompatActivity {
     ArrayList<String> DocTiming1Array = new ArrayList<String>();
     ArrayList<String> DocDays2Array = new ArrayList<String>();
     ArrayList<String> DocTiming2Array = new ArrayList<String>();
+    ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consultant_details);
-
+        pd = new ProgressDialog(ConsultantDetails.this);
+        pd.setMessage("loading");
+        pd.show();
         AsyncCallConsultantDetails task = new AsyncCallConsultantDetails();
         task.execute();
         consultantList = (ListView) findViewById(R.id.listView13);
@@ -78,6 +82,7 @@ public class ConsultantDetails extends AppCompatActivity {
             String[] doctime2 = Doc_Time2();
             ConsultantDetailsAdapter simpleAdapter = new ConsultantDetailsAdapter(getBaseContext(), docNames, docDepts, docSpeciality, docDays1,doctime1,docDays2,doctime2);
             consultantList.setAdapter(simpleAdapter);
+            pd.dismiss();
             ListViewClick();
         }
     }
