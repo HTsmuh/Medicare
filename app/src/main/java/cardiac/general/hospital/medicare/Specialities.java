@@ -1,6 +1,8 @@
 package cardiac.general.hospital.medicare;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -8,16 +10,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
-import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
@@ -33,24 +35,28 @@ public class Specialities extends AppCompatActivity {
     boolean haveConnectedWifi = false;
     boolean haveConnectedMobile = false;
     String network;
-    TextView resulttext;
+    TextView noInternet;
     ListView listView;
-    String outPut;
+    JSONObject jsonResponse;
+    JSONArray jsonMainNode;
+    SimpleAdapter simpleAdapter;
+    ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specialities);
 
-        resulttext= (TextView) findViewById(R.id.result);
+        pd = new ProgressDialog(Specialities.this);
+        pd.setMessage("loading");
+        noInternet= (TextView) findViewById(R.id.no_internet);
         listView= (ListView) findViewById(R.id.listView1);
         network= String.valueOf(haveNetworkConnection());
         if (network.equals("true")) {
-            resulttext.setVisibility(View.GONE);
+            noInternet.setVisibility(View.GONE);
             AsyncCallWS task = new AsyncCallWS();
             task.execute();
-        }
-        else{
+        }else{
             listView.setVisibility(View.GONE);
         }
     }
@@ -67,8 +73,10 @@ public class Specialities extends AppCompatActivity {
         protected void onPostExecute(Void result) {
             Log.i(TAG, "onPostExecute");
             //Toast.makeText(MainActivity.this, "" + outPut, Toast.LENGTH_LONG).show();
-            SimpleAdapter simpleAdapter = new SimpleAdapter(getBaseContext(), specialitiesList, android.R.layout.simple_list_item_1, new String[] {"specialitiess"}, new int[] {android.R.id.text1});
+            simpleAdapter = new SimpleAdapter(getBaseContext(), specialitiesList, android.R.layout.simple_list_item_1, new String[] {"specialitiess"}, new int[] {android.R.id.text1});
             listView.setAdapter(simpleAdapter);
+            pd.dismiss();
+            ListViewClick();
         }
     }
     List<Map<String,String>> specialitiesList = new ArrayList<Map<String,String>>();
@@ -88,14 +96,14 @@ public class Specialities extends AppCompatActivity {
             transport.call(SOAP_ACTION, soapEnvelope);
             resultString= soapEnvelope.getResponse();
             String jsonString="{\"specialities\":"+resultString.toString()+"}";
-            JSONObject jsonResponse = new JSONObject(jsonString);
-            JSONArray jsonMainNode = jsonResponse.optJSONArray("specialities");
+            jsonResponse = new JSONObject(jsonString);
+            jsonMainNode = jsonResponse.optJSONArray("specialities");
             Log.i(TAG, "Result: " + jsonMainNode);
             for(int i = 0; i<jsonMainNode.length();i++){
                 JSONObject jsonChildNode = jsonMainNode.getJSONObject(i);
+                //String number = jsonChildNode.optString("Id");
                 String name = jsonChildNode.optString("Name");
-                String number = jsonChildNode.optString("Id");
-                outPut = number + "-" + name;
+                String outPut = i+1 + ": " +name;
                 specialitiesList.add(createspecialities("specialitiess", outPut));
             }
         } catch (Exception ex) {
@@ -106,6 +114,23 @@ public class Specialities extends AppCompatActivity {
         HashMap<String, String> specialitiesNameNo = new HashMap<String, String>();
         specialitiesNameNo.put(name, number);
         return specialitiesNameNo;
+    }
+    public void ListViewClick() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                try {
+                    JSONObject jsonChildNode = jsonMainNode.getJSONObject(position);
+                    String number = jsonChildNode.optString("Id");
+                    //Toast.makeText(Specialities.this, "ID : "+number, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(Specialities.this, SpecialityDetails.class);
+                    intent.putExtra("ID", number);
+                    startActivity(intent);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
     private boolean haveNetworkConnection() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);

@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -59,8 +60,9 @@
 
         <activity
             android:name=".Contact_us"
-            android:theme="@style/AppTheme"
-            android:label="Contact us"/>
+            android:label="Contact us" />
+        <activity android:name=".SpecialityDetails"
+            android:label="Speciality Details"/>
     </application>
 
 </manifest>
