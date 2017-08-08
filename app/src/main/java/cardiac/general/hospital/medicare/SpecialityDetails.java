@@ -146,7 +146,7 @@ public class SpecialityDetails extends AppCompatActivity {
             JSONObject jsonChildNode = jsonMainNode.getJSONObject(0);
             String pic = jsonChildNode.optString("Picture");
             url = pic.replaceAll("~", "http://medicarehospital.pk/");
-            Log.e(TAG, "URL: " + url);
+            Log.d(TAG, "URL: " + url);
             name = jsonChildNode.optString("Name");
             heading1 = jsonChildNode.optString("Head1");
             paragraph1 = jsonChildNode.optString("Headpara1");
