@@ -9,8 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,9 +19,6 @@ import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import cardiac.general.hospital.medicare.Adapter.ConsultantDetailsAdapter;
 
@@ -115,8 +110,8 @@ public class ConsultantDetails extends AppCompatActivity {
                 DocTiming1 = jsonChildNode.optString("Timing1");
                 DocDays2 = jsonChildNode.optString("Clinicdays2");
                 DocTiming2 = jsonChildNode.optString("Timing2");
-                Sr_Name = i + 1 + ": " + DocName;
-                DocNameArray.add(Sr_Name);
+                //Sr_Name = i + 1 + ": " + DocName;
+                DocNameArray.add(DocName);
                 DocDeptArray.add(DocDept);
                 DocSpecialityArray.add(DocSpeciality);
                 DocDays1Array.add(DocDays1);
